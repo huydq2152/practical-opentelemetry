@@ -1,9 +1,23 @@
-﻿await DoWork();
+﻿using ConsoleTool;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+
+using var traceProvider = OpenTelemetry.Sdk.CreateTracerProviderBuilder()
+    .SetResourceBuilder(
+        ResourceBuilder.CreateDefault()
+            .AddService("ConsoleTool")
+    )
+    .AddSource(ApplicationDiagnostics.ActivitySourceName)
+    .AddConsoleExporter()
+    .Build();
+
+await DoWork();
 
 Console.WriteLine("Done!");
 
 static async Task DoWork()
 {
+    using var activity = ApplicationDiagnostics.ActivitySource.StartActivity("Do Work");
     await StepOne();
     await StepTwo();
 }

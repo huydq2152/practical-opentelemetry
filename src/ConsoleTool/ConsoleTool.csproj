@@ -8,4 +8,9 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="OpenTelemetry" Version="1.11.0" />
+      <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.11.0" />
+    </ItemGroup>
+
 </Project>
