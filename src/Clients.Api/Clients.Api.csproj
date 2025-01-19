@@ -26,9 +26,11 @@
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.4" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
+        <PackageReference Include="Npgsql.OpenTelemetry" Version="9.0.2" />
         <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.11.0" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.11.0" />
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
+        <PackageReference Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.0.0-rc9.15" />
         <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>

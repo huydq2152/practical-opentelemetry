@@ -6,9 +6,11 @@ using Clients.Api.Clients.Risk;
 using Clients.Api.Extensions;
 using Infrastructure.RabbitMQ;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using RiskEvaluator;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +22,10 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(options =>
 builder.Services.AddDbContext<ClientsDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("ClientsDb")));
 
+IConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("ClientsCache"));
+builder.Services.AddSingleton(connectionMultiplexer);
 builder.Services.AddStackExchangeRedisCache(options =>
-    options.Configuration = builder.Configuration.GetConnectionString("ClientsCache"));
+    options.ConnectionMultiplexerFactory = () => Task.FromResult(connectionMultiplexer));
 
 builder.Services.AddSingleton<IRiskValidator, RiskValidator>();
 
@@ -47,6 +51,8 @@ builder.Services.AddOpenTelemetry()
     )
     .WithTracing(providerBuilder => providerBuilder
         .AddAspNetCoreInstrumentation()
+        .AddNpgsql()
+        .AddRedisInstrumentation()
         .AddConsoleExporter()
     );
 
