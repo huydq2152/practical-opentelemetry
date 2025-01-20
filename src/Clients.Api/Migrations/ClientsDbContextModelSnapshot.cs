@@ -17,12 +17,12 @@ namespace Clients.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Address", b =>
+            modelBuilder.Entity("Clients.Contracts.Events.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,11 +58,14 @@ namespace Clients.Api.Migrations
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("Client", b =>
+            modelBuilder.Entity("Clients.Contracts.Events.Client", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -80,14 +83,14 @@ namespace Clients.Api.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("Address", b =>
+            modelBuilder.Entity("Clients.Contracts.Events.Address", b =>
                 {
-                    b.HasOne("Client", null)
+                    b.HasOne("Clients.Contracts.Events.Client", null)
                         .WithMany("Addresses")
                         .HasForeignKey("ClientId");
                 });
 
-            modelBuilder.Entity("Client", b =>
+            modelBuilder.Entity("Clients.Contracts.Events.Client", b =>
                 {
                     b.Navigation("Addresses");
                 });
