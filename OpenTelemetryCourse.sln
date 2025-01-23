@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 		prometheus.yml = prometheus.yml
 		grafana-datasources.yml = grafana-datasources.yml
+		otel-collector-config.yml = otel-collector-config.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4A3BD244-37AD-4BE9-B73B-2DED723EA5E5}"
