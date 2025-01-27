@@ -7,6 +7,7 @@ using Clients.Contracts.Events;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
+using OpenTelemetry;
 
 namespace Clients.Api.Clients;
 
@@ -74,7 +75,9 @@ internal static class ClientsApi
                 };
 
                 Activity.Current?.EnrichWithClient(client);
-
+                
+                Baggage.SetBaggage("client.Id", client.Id.ToString());
+                
                 db.Clients.Add(client);
                 await db.SaveChangesAsync();
 
