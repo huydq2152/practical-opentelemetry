@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Infrastructure.RabbitMQ;
 using Npgsql;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
@@ -30,6 +31,7 @@ public static class OpenTelemetryConfigurationExtensions
                     .AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation(options => { options.RecordException = true; })
                     .AddNpgsql()
+                    .AddSource(RabbitMqDiagnostics.ActivitySourceName)
                     .AddRedisInstrumentation()
                     //.AddConsoleExporter()
                     .AddOtlpExporter(options =>

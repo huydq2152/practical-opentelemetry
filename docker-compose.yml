@@ -45,6 +45,7 @@
     environment:
         ConnectionStrings__AccountsDb: Host=accounts.db;Port=5432;Database=AccountsDb;Username=postgres;Password=postgres
         ConnectionStrings__RabbitMq: amqp://guest:guest@rabbitmq:5672/
+        OTLP_Endpoint: http://otel-collector:4317
     ports:
       - "8081:8080"
     depends_on:

@@ -21,6 +21,8 @@ builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("AccountsDb")!)
     .AddRabbitMQ(rabbitConnectionString: builder.Configuration.GetConnectionString("RabbitMq")!);
 
+builder.Services.AddOpenTelemetry();
+
 var app = builder.Build();
 
 // For demo purposes, ensure the database is created
