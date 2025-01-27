@@ -21,7 +21,7 @@ public class EvaluatorService : Evaluator.EvaluatorBase
         var clientId = Baggage.GetBaggage("client.Id");
         _logger.LogInformation("Evaluating risk for {Email} {id}", request.Email, clientId);
         
-        Activity.Current?.SetTag("client.Id", clientId);
+        // Activity.Current?.SetTag("client.Id", clientId); // No need this line, BaggageProcessor will do it for us
 
         var score = _rules.Sum(rule => rule.Evaluate(request));
 

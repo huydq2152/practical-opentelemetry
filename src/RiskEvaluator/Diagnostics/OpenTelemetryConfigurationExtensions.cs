@@ -12,6 +12,10 @@ public static class OpenTelemetryConfigurationExtensions
         const string serviceName = "RiskEvaluator";
 
         var otlpEndpoint = new Uri(builder.Configuration.GetValue<string>("OTLP_Endpoint")!);
+        
+        builder.Services
+            .ConfigureOpenTelemetryTracerProvider((provider, providerBuilder) =>
+                providerBuilder.AddProcessor(new BaggageProcessor()));
 
         builder.Services.AddOpenTelemetry()
             .ConfigureResource(resource =>
