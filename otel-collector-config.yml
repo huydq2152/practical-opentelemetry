@@ -51,6 +51,10 @@ exporters:
       insecure: true
   prometheus:
     endpoint: "0.0.0.0:8889"
+  loki:
+    endpoint: "http://loki:3100/loki/api/v1/push"
+    tls:
+      insecure: true
 
 service:
   pipelines:
@@ -71,6 +75,13 @@ service:
       exporters:
         - debug
         - prometheus
+    logs:
+      receivers:
+        - otlp
+      processors: [memory_limiter, batch]
+      exporters:
+        - debug
+        - loki
 
   extensions:
     - health_check
