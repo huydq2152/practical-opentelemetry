@@ -28,19 +28,19 @@ processors:
 #    sampling_percentage: 50
 #    
 
-## https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/tailsamplingprocessor/README.md
-#  tail_sampling:
-#    decision_wait: 10s
-#    expected_new_traces_per_sec: 10
-#    policies:
-#      - name: string_attribute_policy
-#        type: string_attribute
-#        string_attribute:
-#          key: http.route
-#          values:
-#            - ^\/healthz$
-#          enabled_regex_matching: true
-#          invert_match: true
+# https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/tailsamplingprocessor/README.md
+  tail_sampling:
+    decision_wait: 10s
+    expected_new_traces_per_sec: 10
+    policies:
+      - name: string_attribute_policy
+        type: string_attribute
+        string_attribute:
+          key: http.route
+          values:
+            - ^\/healthz$
+          enabled_regex_matching: true
+          invert_match: true
 
 
 exporters:
@@ -63,7 +63,7 @@ service:
         - otlp
       processors: [memory_limiter, attributes, 
 #                   probabilistic_sampler, 
-#                   tail_sampling,
+                   tail_sampling,
                    batch]
       exporters:
         - debug
