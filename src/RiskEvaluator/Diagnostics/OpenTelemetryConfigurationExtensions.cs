@@ -31,6 +31,7 @@ public static class OpenTelemetryConfigurationExtensions
             .WithTracing(providerBuilder => providerBuilder
                 .AddAspNetCoreInstrumentation()
                 //.AddConsoleExporter()
+                .AddSource(ApplicationDiagnostics.ActivitySourceName)
                 .AddOtlpExporter(options => { options.Endpoint = otlpEndpoint; })
             )
             .WithLogging(

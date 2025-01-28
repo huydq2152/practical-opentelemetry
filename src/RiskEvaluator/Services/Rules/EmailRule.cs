@@ -1,3 +1,5 @@
+using RiskEvaluator.Diagnostics;
+
 namespace RiskEvaluator.Services.Rules;
 
 public class EmailRule : IRule
@@ -10,11 +12,16 @@ public class EmailRule : IRule
 
     public int Evaluate(RiskEvaluationRequest request)
     {
+        using var activity =
+            ApplicationDiagnostics.ActivitySource.StartActivity($"Evaluate email rule for {request.Email}");
+
+        activity?.SetTag("request.email", request.Email);
+
         var emailDomain = GetEmailDomain(request.Email);
         return IsSuspiciousDomain(emailDomain) ? 20 : 0;
     }
 
-    private bool IsSuspiciousDomain(string emailDomain) 
+    private bool IsSuspiciousDomain(string emailDomain)
         => _suspiciousDomains.Contains(emailDomain);
 
     private string GetEmailDomain(string email)
