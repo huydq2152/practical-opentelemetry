@@ -20,7 +20,7 @@ public class EvaluatorService : Evaluator.EvaluatorBase
     {
         var clientId = Baggage.GetBaggage("client.Id");
         _logger.LogInformation("Evaluating risk for {Email} {id}", request.Email, clientId);
-        
+
         // Activity.Current?.SetTag("client.Id", clientId); // No need this line, BaggageProcessor will do it for us
 
         var score = _rules.Sum(rule => rule.Evaluate(request));
@@ -33,6 +33,17 @@ public class EvaluatorService : Evaluator.EvaluatorBase
         };
 
         _logger.LogInformation("Risk level for {Email} is {Level}", request.Email, level);
+
+        Activity.Current?.SetTag("evaluation.email", request.Email);
+
+        Activity.Current?.AddEvent(new ActivityEvent(
+            "RiskResult",
+            default,
+            new ActivityTagsCollection(new KeyValuePair<string, object?>[]
+            {
+                new("risk.score", score),
+                new("risk.level", level)
+            })));
 
         return Task.FromResult(new RiskEvaluationReply()
         {
