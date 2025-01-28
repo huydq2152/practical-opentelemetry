@@ -16,7 +16,7 @@ public static class OpenTelemetryConfigurationExtensions
         const string serviceName = "Clients.Api";
 
         var otlpEndpoint = new Uri(builder.Configuration.GetValue<string>("OTLP_Endpoint")!);
-
+        
         builder.Services.AddOpenTelemetry()
             .ConfigureResource(resourceBuilder => resourceBuilder
                 .AddService(serviceName)
@@ -33,6 +33,7 @@ public static class OpenTelemetryConfigurationExtensions
                     .AddNpgsql()
                     .AddSource(RabbitMqDiagnostics.ActivitySourceName)
                     .AddRedisInstrumentation()
+                    .SetSampler(new RateSampler(0.25)) // Head sampling (application level), sample in the 1st service in the call chain, can use custom sampler like this or use default sampler of OTEL
                     //.AddConsoleExporter()
                     .AddOtlpExporter(options =>
                     {
